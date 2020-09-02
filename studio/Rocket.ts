@@ -5,25 +5,30 @@ import {Astronaut} from './Astronaut';
 export class Rocket {
   name: string;
   totalCapacityKg: number;
-  cargoItems: Cargo[];
-  astronauts: Astronaut[];
+  cargoItems: Cargo[] = [];
+  astronauts: Astronaut[] = [];
+
   constructor (name:string, totalCapacityKg: number) {
     this.totalCapacityKg = totalCapacityKg;
     this.name = name;
   }
+
   sumMass(items: Payload[]):number {
     let mass:number = 0;
-    for(let i:number = 0; i < items.length; i++) {
+    for(let i = 0; i < items.length; i++) {
       mass += items[i].massKg;
     }
     return mass;
   }
+
   currentMassKg():number {
     return this.sumMass(this.astronauts) + this.sumMass(this.cargoItems);
   }
+
   canAdd(item: Payload) : boolean {
     return this.currentMassKg() + item.massKg <= this.totalCapacityKg;
   }
+
   addCargo(cargo: Cargo): boolean {
     if(this.canAdd(cargo)) {
       this.cargoItems.push(cargo);
@@ -31,6 +36,7 @@ export class Rocket {
     }
     return false;
   }
+
   addAstronaut(astronaut: Astronaut): boolean{
     if(this.canAdd(astronaut)) {
       this.astronauts.push(astronaut);
